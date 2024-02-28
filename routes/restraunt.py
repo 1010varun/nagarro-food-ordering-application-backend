@@ -11,6 +11,14 @@ restaurant_service = RestaurantService()
 order_service = OrderService()
 review_service = ReviewService()
 
+@owner_bp.route("/restaurants", methods=["GET"])
+def get_restaurants():
+    try:
+        restaurants = restaurant_service.get_all_restaurants()
+        return jsonify(restaurants), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 @owner_bp.route("/restaurants", methods=["POST"])
 def register_restaurant():
