@@ -1,9 +1,7 @@
-from flask_sqlalchemy import SQLAlchemy
+from config.dbconfig import db
 from .customer import Customer
 from .restaurant import Restaurant
 from .menu import Menu
-
-db = SQLAlchemy()
 
 class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)

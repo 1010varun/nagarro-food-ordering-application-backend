@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
+from config.dbconfig import db
 from .restaurant import Restaurant
-
-db = SQLAlchemy()
 
 class Menu(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -10,3 +8,12 @@ class Menu(db.Model):
     dish_name = db.Column(db.String(255), nullable=False)
     price = db.Column(db.Float, nullable=False)
     description = db.Column(db.Text)
+
+    def serialize(self):
+        return {
+            'id': self.id,
+            'restaurant_id': self.restaurant_id,
+            'dish_name': self.dish_name,
+            'price': self.price,
+            'description': self.description
+        }
