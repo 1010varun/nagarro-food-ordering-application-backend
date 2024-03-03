@@ -39,6 +39,14 @@ def register_customer_route():
     return jsonify(customer.serialize()), 201
 
 
+@customer_routes.route('/login', methods=['POST'])
+def customer_login_route():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    return customer_login(email, password)
+
+
 @customer_routes.route('/addtocart/<int:customer_id>', methods=['POST'])
 @jwt_required()
 def add_to_cart_route(customer_id):

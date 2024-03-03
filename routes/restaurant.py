@@ -16,6 +16,13 @@ def register_restaurant_owner_route():
 
     return jsonify({"message": "Restaurant owner registered successfully", "owner_id": owner.id})
 
+@restaurant_routes.route('/login', methods=['POST'])
+def restaurant_owner_login_route():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+    return restaurant_owner_login(email, password)
+
 
 @restaurant_routes.route('/restaurant-owners/<int:owner_id>', methods=['GET'])
 def get_restaurant_owner(owner_id):
