@@ -58,6 +58,12 @@ def add_to_cart_route(customer_id):
     return jsonify({"message": "Item added to cart successfully"})
 
 
+@customer_routes.route('/getcart/<int:customer_id>', methods=['GET'])
+@jwt_required()
+def get_cart_items_route(customer_id):
+    return get_cart_items(customer_id)
+
+
 @customer_routes.route('/placeorder/<int:customer_id>', methods=['POST'])
 @jwt_required()
 def place_order_route(customer_id):

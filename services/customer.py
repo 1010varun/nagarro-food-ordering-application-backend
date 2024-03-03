@@ -50,6 +50,23 @@ def add_to_cart(customer_id, dish_id):
     return customer.cart
 
 
+
+def get_cart_items(customer_id):
+    customer = get_customer_by_id(customer_id)
+    cart_items = []
+    for dish_id in loads(customer.cart):
+        menu_item = Menu.query.get(dish_id)
+        if menu_item:
+            cart_items.append({
+                "dish_id": menu_item.id,
+                "dish_name": menu_item.dish_name,
+                "price": menu_item.price,
+                "description": menu_item.description
+            })
+
+    return jsonify({"cart_items": cart_items})
+
+
 def place_order(customer_id):
     customer = get_customer_by_id(customer_id)
     
