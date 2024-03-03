@@ -6,6 +6,7 @@ from flask import jsonify, abort
 from config.dbconfig import db
 from json import dumps, loads
 from datetime import datetime
+from flask_jwt_extended import create_access_token
 
 
 def register_customer(name, email, phone_number, password):
@@ -19,6 +20,17 @@ def register_customer(name, email, phone_number, password):
     db.session.commit()
     
     return new_customer
+
+
+def customer_login(email, password):
+    customer = Customer.query.filter_by(email=email).first()
+
+    if not customer or not customer.check_password(password):
+        abort(401, "Invalid email or password")
+
+    access_token = create_access_token(identity=email)
+
+    return jsonify({"message": "Customer login successful", "token": access_token})
 
 
 def get_customer_by_id(customer_id):

@@ -1,6 +1,7 @@
 from flask import Blueprint, jsonify, request
 from services.restaurant import *
 from json import loads
+from flask_jwt_extended import jwt_required
 
 restaurant_routes = Blueprint('restaurant_routes', __name__)
 
@@ -19,7 +20,6 @@ def register_restaurant_owner_route():
 @restaurant_routes.route('/restaurant-owners/<int:owner_id>', methods=['GET'])
 def get_restaurant_owner(owner_id):
     owner = get_restaurant_owner_by_id(owner_id)
-    print(owner)
     return jsonify(owner.serialize())
 
 
@@ -31,6 +31,7 @@ def register_new_restaurant(owner_id):
 
 
 @restaurant_routes.route('/restaurants/<int:restaurant_id>/add-menu-item', methods=['POST'])
+@jwt_required()
 def add_menu_item_route(restaurant_id):
     data = request.get_json()
     dish_name = data.get('dish_name')
@@ -45,6 +46,7 @@ def add_menu_item_route(restaurant_id):
 
 
 @restaurant_routes.route('/menu/<int:menu_id>/edit', methods=['PUT'])
+@jwt_required()
 def edit_menu_item_route(menu_id):
     data = request.get_json()
     dish_name = data.get('dish_name')
@@ -56,12 +58,14 @@ def edit_menu_item_route(menu_id):
 
 
 @restaurant_routes.route('/menu/<int:menu_id>/delete', methods=['DELETE'])
+@jwt_required()
 def delete_menu_item_route(menu_id):
     result = delete_menu_item(menu_id)
     return jsonify(result)
 
 
 @restaurant_routes.route('/orders/<int:restaurant_id>/orders', methods=['GET'])
+@jwt_required()
 def get_orders_for_restaurant_route(restaurant_id):
     orders = get_orders_for_restaurant(restaurant_id)
     return jsonify({"orders": loads(order.items) for order in orders})

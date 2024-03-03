@@ -4,6 +4,7 @@ from models.menu import Menu
 from models.order import Order
 from flask import jsonify, abort
 from config.dbconfig import db
+from flask_jwt_extended import create_access_token
 
 
 def get_restaurant_owner_by_id(owner_id):
@@ -11,6 +12,15 @@ def get_restaurant_owner_by_id(owner_id):
     if not owner:
         abort(404, f"Restaurant Owner with ID {owner_id} not found")
     return owner
+
+
+def restaurant_owner_login(email, password):
+    owner = RestaurantOwner.query.filter_by(email=email).first()
+    if not owner or not owner.check_password(password):
+        abort(401, "Invalid email or password")
+    access_token = create_access_token(identity=email)
+    return jsonify({"message": "Restaurant owner login successful", "token": access_token})
+
 
 def register_restaurant(owner_id, restaurant_data):
     owner = get_restaurant_owner_by_id(owner_id)

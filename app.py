@@ -1,6 +1,7 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config.dbconfig import db
+from flask_jwt_extended import JWTManager
 
 from routes.customer import customer_routes
 from routes.restaurant import restaurant_routes
@@ -15,8 +16,13 @@ from models.admin import Admin
 
 
 app = Flask(__name__)
+CORS(app, origins="*")
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///my_database.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['JWT_SECRET_KEY'] = "sample secret key"
+app.config['JWT_ACCESS_TOKEN_EXPIRES'] = timedelta(days=90)
+jwt = JWTManager(app)
+
 
 db.init_app(app)
 
