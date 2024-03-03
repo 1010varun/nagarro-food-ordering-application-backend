@@ -2,6 +2,8 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from config.dbconfig import db
 from flask_jwt_extended import JWTManager
+from flask_cors import CORS
+from datetime import timedelta
 
 from routes.customer import customer_routes
 from routes.restaurant import restaurant_routes
