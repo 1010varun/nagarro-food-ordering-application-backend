@@ -30,7 +30,7 @@ def customer_login(email, password):
 
     access_token = create_access_token(identity=email)
 
-    return jsonify({"message": "Customer login successful", "token": access_token})
+    return jsonify({"message": "Customer login successful", "token": access_token, "role": customer.role, "email": email, "name": customer.name})
 
 
 def get_customer_by_id(customer_id):

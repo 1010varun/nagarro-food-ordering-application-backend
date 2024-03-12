@@ -19,7 +19,7 @@ def restaurant_owner_login(email, password):
     if not owner or not owner.check_password(password):
         abort(401, "Invalid email or password")
     access_token = create_access_token(identity=email)
-    return jsonify({"message": "Restaurant owner login successful", "token": access_token})
+    return jsonify({"message": "Restaurant owner login successful", "token": access_token, "role": owner.role, "email": email, "name": owner.name})
 
 
 def register_restaurant(owner_id, restaurant_data):
