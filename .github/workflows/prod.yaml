@@ -21,7 +21,11 @@ jobs:
         run: docker build -t nagarro .
 
       - name: tag image to the Docker image
-        run: docker tag nagarro 1010varun/food-ordering-application:${{ github.ref }}
+        env:
+            TAG_NAME: $(echo "${{ github.ref }}" | sed 's|.*/||')
+        run: docker tag nagarro 1010varun/food-ordering-application:TAG_NAME
 
       - name: Push to Docker Hub
-        run: docker push 1010varun/food-ordering-application:${{ github.ref }}
+        env:
+            TAG_NAME: $(echo "${{ github.ref }}" | sed 's|.*/||')
+        run: docker push 1010varun/food-ordering-application:TAG_NAME
