@@ -3,9 +3,7 @@ name: Tag Triggered Workflow
 on:
   push:
     tags:
-      - '*' # You can specify a pattern for tag names, e.g., 'v*' for tags starting with 'v'
-    branches:
-      - main
+      - '*'
 
 jobs:
   tag_triggered_job:
