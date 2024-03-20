@@ -1,0 +1,29 @@
+name: Tag Triggered Workflow
+
+on:
+  push:
+    tags:
+      - '*' # You can specify a pattern for tag names, e.g., 'v*' for tags starting with 'v'
+    branches:
+      - main
+
+jobs:
+  tag_triggered_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login DockerHub
+        env: 
+            DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+            DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        
+      - name: Build the Docker image
+        run: docker build -t nagarro .
+
+      - name: tag image to the Docker image
+        run: docker tag nagarro 1010varun/food-ordering-application:test
+
+      - name: Push to Docker Hub
+        run: docker push 1010varun/food-ordering-application:test
