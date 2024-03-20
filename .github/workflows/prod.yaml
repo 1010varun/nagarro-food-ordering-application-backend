@@ -22,10 +22,10 @@ jobs:
 
       - name: tag image to the Docker image
         env:
-            TAG_NAME: $(echo "${{ github.ref }}" | sed 's|.*/||')
-        run: docker tag nagarro 1010varun/food-ordering-application:$TAG_NAME
+            TAG_NAME: $(echo "${{ github.ref_name }}" | sed 's|.*/||')
+        run: docker tag nagarro 1010varun/food-ordering-application:"${{ github.ref_name }}" 
 
       - name: Push to Docker Hub
         env:
             TAG_NAME: $(echo "${{ github.ref }}" | sed 's|.*/||')
-        run: docker push 1010varun/food-ordering-application:$TAG_NAME
+        run: docker push 1010varun/food-ordering-application:"${{ github.ref_name }}" 
