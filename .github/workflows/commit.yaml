@@ -1,0 +1,29 @@
+name: Daily Update README
+
+on: 
+  workflow_dispatch: 
+  schedule:
+    - cron: '30 18 * * *'  # Runs at midnight UTC every day
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      
+    - name: Update README
+      run: |
+        echo "Updated" >> README.md
+      
+    - name: Commit changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git commit -m "Automated README update"
+      
+    - name: Push changes
+      run: |
+        git push
